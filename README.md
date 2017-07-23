@@ -1,5 +1,5 @@
-SINATRA_WEB_APP_TEMPLATE
+FILE_BASED_CMS_170
 
-Based on Course 170 from Launch School
+Project for Course 170 in Launch School
 
-Created 22 JUL 2017
+Started 7/22/2017
