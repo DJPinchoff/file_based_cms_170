@@ -10,33 +10,38 @@ configure do
 end
 
 
-def data_dir
+def data_path
   if ENV["RACK_ENV"] == "test"
-    Dir.new(Dir.pwd + "/test/data")
+    Dir.pwd + "/test/data"
   else
-    Dir.new(Dir.pwd + "/data")
+    Dir.pwd + "/data"
   end
 end
 
 def data_filenames
-  data_dir.select { |file| file.match?(/.+\..+/) }
+  Dir.new(data_path).select { |file| file.match?(/.+\..+/) }
 end
 
-def valid_filename?(filename)
+def valid_file?(filename)
   data_filenames.include? filename
 end
 
-def parse_markdown(file)
+def valid_filename?(filename)
+  filename.match?(/.+\..+/)
+end
+
+def render_markdown(file)
   markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
   markdown.render(file.read)
 end
 
-def parse_content(path)
+def parse_content(path, pure_content=nil)
   extension = path.split(".").last
+  extension = "txt" if pure_content == :pure_content
   file = File.new(path)
   case extension
   when "md"
-    parse_markdown(file)
+    render_markdown(file)
   when "txt"
     headers["Content-Type"] = "text/plain"
     file.read
@@ -47,14 +52,14 @@ end
 get "/" do
   @filenames = data_filenames
 
-  erb :index
+  erb :index, layout: :layout
 end
 
 # Show the contents of a specific file
 get "/:filename" do
   @filename = params[:filename]
-  if valid_filename?(@filename)
-    path = Dir.pwd + "/data/" + @filename
+  if valid_file?(@filename)
+    path = File.join(data_path, @filename)
     parse_content(path)
   else
     session[:message] = "#{@filename} does not exist! Try one of these files:"
@@ -65,11 +70,11 @@ end
 # Display form to edit contents of file
 get "/:filename/edit" do
   @filename = params[:filename]
-  if valid_filename?(@filename)
-    @path = Dir.pwd + "/data/" + @filename
-    @content = parse_content(@path)
+  if valid_file?(@filename)
+    @path = File.join(data_path, @filename)
+    @content = parse_content(@path, :pure_content)
     headers["Content-Type"] = "text/html"
-    erb :edit_file
+    erb :edit
   else
     session[:message] = "#{@filename} does not exist! Try one of these files:"
     redirect "/"
@@ -80,8 +85,28 @@ end
 post "/:filename/update" do
   filename = params[:filename]
   content = params[:content]
-  path = Dir.pwd + "/data/" + filename
+  path = File.join(data_path, filename)
   File.write(path, content)
   session[:message] = "#{filename} has been updated successfully!"
   redirect "/"
+end
+
+# Create a new file
+get "/files/create" do
+  erb :create, layout: :layout
+end
+
+# Save a valid new file
+get "/files/save" do
+  if params[:file]
+    filename = params[:file]
+    if valid_filename?(filename)
+      File.open(File.join(data_path, filename), "w") {}
+      session[:message] = "#{filename} was created."
+      redirect "/"
+    else
+      session[:message] = "Invalid filename!"
+      redirect "/files/create"
+    end
+  end
 end
