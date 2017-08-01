@@ -92,21 +92,35 @@ post "/:filename/update" do
 end
 
 # Create a new file
-get "/files/create" do
+get "/new_file/create" do
   erb :create, layout: :layout
 end
 
 # Save a valid new file
-get "/files/save" do
+post "/new_file/save" do
   if params[:file]
     filename = params[:file]
     if valid_filename?(filename)
       File.open(File.join(data_path, filename), "w") {}
       session[:message] = "#{filename} was created."
+      status 302
       redirect "/"
     else
       session[:message] = "Invalid filename!"
-      redirect "/files/create"
+      status 422
+      erb :create, layout: :layout
     end
+  end
+end
+
+post "/:filename/delete" do
+  filename = params[:filename]
+  if valid_filename?(filename)
+    File.delete(File.join(data_path, filename))
+    session[:message] = "#{filename} was deleted."
+    redirect "/"
+  else
+    session[:message] = "#{filename} does not exist! Try one of these files:"
+    redirect "/"
   end
 end
