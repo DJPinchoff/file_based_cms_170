@@ -2,12 +2,24 @@
   <% @filenames.each do |filename| %>
     <li>
       <a href="/<%= filename %>"><%= filename %></a>
-      <a href="/<%= filename %>/edit">Edit</a>
+      <a href="/<%= filename %>/edit">edit</a>
       <form class="inline" method="post" action="/<%= filename %>/delete">
-        <button type="submit">delete</button>
+        <button class="inline" type="submit">delete</button>
       </form>
     </li>
   <% end %>
 </ul>
-
 <a href="/new_file/create">New Document</a>
+<br>
+<% if session[:username] %>
+  <form method="post" action="/users/signout">
+    <p class="user-status">
+      Signed in as <%= session[:username] %>.
+      <button type="submit">Sign Out</button>
+    </p>
+  </form>
+<% else %>
+  <form method="get" action="/users/signin">
+    <button type="submit">Sign In</button>
+  </form>
+<% end %>
