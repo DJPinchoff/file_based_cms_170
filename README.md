@@ -3,10 +3,12 @@
 Content Management System Project for Course 170 in Launch School
 
 Features:
-- CRUD application that uses Ruby to interact with file system.
-- Uses YML file to log users and passwords using bcrypt encryption.
-- Uses puma as local webserver.
+- CRUD application that uses Ruby to interact with file system
+- A directory with tests for each feature in the application
+- Uses YML file to log users and passwords using bcrypt encryption
+- Uses puma as local webserver
 - Uses Sinatra web framework for routes and layout
+- Rakefile for easy access of running tests
 
 ## Installation and Use
 1. Download the zip files and unzip into a new directory.
