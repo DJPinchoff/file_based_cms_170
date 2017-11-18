@@ -12,6 +12,6 @@ In order to use the program:
 1. Download the zip files and unzip into a new directory.
 2. To run the application, open Terminal,  ```cd``` into the directory, and type ```ruby cms.rb```.
 3. Leave the server running and open a web browser.
-4. Navigate to ```localhost:4567``` to interact with this Creat, Read, Update, Delete web application.
+4. Navigate to ```localhost:4567``` to interact with the application.
 
 HINT: In order to log in, use ```admin``` as your username and ```secret``` as your password.
