@@ -3,9 +3,9 @@ FILE_BASED_CMS_170
 Project for Course 170 in Launch School
 
 Features:
--CRUD application that uses Ruby to interact with file system.
--Uses YML file to log users and passwords using bcrypt encryption.
--Uses puma as local webserver.
+-CRUD application that uses Ruby to interact with file system.\n
+-Uses YML file to log users and passwords using bcrypt encryption.\n
+-Uses puma as local webserver.\n
 -Uses Sinatra web framework for routes and layout
 
 In order to use the program:
