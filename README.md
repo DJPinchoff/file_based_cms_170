@@ -8,7 +8,7 @@ Features:
 - Uses puma as local webserver.
 - Uses Sinatra web framework for routes and layout
 
-In order to use the program:
+## Installation and Use
 1. Download the zip files and unzip into a new directory.
 2. To run the application, open Terminal,  ```cd``` into the directory, and type ```ruby cms.rb```.
 3. Leave the server running and open a web browser.
