@@ -1,6 +1,6 @@
 # FILE_BASED_CMS_170
 
-Project for Course 170 in Launch School
+Content Management System Project for Course 170 in Launch School
 
 Features:
 - CRUD application that uses Ruby to interact with file system.
